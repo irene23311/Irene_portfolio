@@ -1,0 +1,96 @@
+/* ---- Trickle-like design tokens ---- */
+:root{
+  --bg: #0a1b25;
+  --panel: #ffffff;
+  --border: #e5e7eb;
+  --text: #0e1fb7;
+  --muted: #6b7280;
+  --chip-bg: #f1f5f9;
+  --chip-text: #334155;
+  --brand: #2563eb; /* toolbar button blue */
+  --accent: #10b981; /* success/green dot */
+}
+
+/* ---- Global resets ---- */
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body{
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---- Header / top bar ---- */
+.site-header{
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+.site-header a{
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+.site-header a:hover{ background: var(--chip-bg); }
+
+/* ---- Toolbar (chips + search) ---- */
+.toolbar{
+  display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  box-shadow: 0 1px 0 rgba(15,23,42,.03);
+}
+.chip{
+  display: inline-flex; align-items:center; gap:6px;
+  font-size: 13px; line-height: 1;
+  padding: 8px 10px; border-radius: 999px;
+  background: var(--chip-bg); color: var(--chip-text);
+  border: 1px solid var(--border);
+}
+.chip.is-active{ background: #e8eefc; border-color:#c7d2fe; color:#1e40af; }
+
+.search{
+  height: 32px; min-width: 180px;
+  padding: 0 10px; border-radius: 8px;
+  border: 1px solid var(--border); outline: none;
+  background: #ffffff; color: var(--text);
+}
+
+/* ---- Right panel ---- */
+.side-panel{
+  width: 360px; background: var(--panel);
+  border-left: 1px solid var(--border);
+  overflow: auto;
+}
+
+/* ---- Mini map card ---- */
+.minimap{
+  width: 120px; height: 90px; background: var(--panel);
+  border: 1px solid var(--border); border-radius: 10px;
+  box-shadow: 0 1px 0 rgba(15,23,42,.03);
+  display: grid; place-items: center; font-size: 12px; color: var(--muted);
+}
+
+/* ---- Reset button ---- */
+.btn{
+  appearance: none; border: 1px solid var(--border); background: var(--panel);
+  padding: 8px 12px; border-radius: 8px; font-weight: 600; cursor: pointer;
+}
+.btn.primary{ background: var(--brand); border-color: var(--brand); color: #fff; }
+.btn:hover{ filter: brightness(0.97); }
+
+/* ---- Map canvas background ---- */
+.map-bg{
+  background: linear-gradient(180deg, #f9fafb, #eef2f7);
+}

@@ -1,0 +1,83 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* ——— map node pill styles ——— */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap');
+
+.map-node-pill {
+  font-family: 'DM Sans', sans-serif;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* size comes from inline style in JSX; these are just fallbacks */
+  width: 80px;
+  height: 40px;
+
+  color: #000;
+  background-color: rgba(255,255,255,.3);
+  border-radius: 8px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-weight: 500;
+  box-shadow: 1px 1px 1rem rgb(26 26 26 / 15%);
+  cursor: pointer;
+  transition: transform .2s ease;
+}
+
+.map-node-pill:hover {
+  transform: translate(-1px,-1px);
+}
+
+.map-node-pill .grad {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  transform: translate(0.5rem,0.5rem);
+  pointer-events: none;
+  z-index: -1;
+  background: linear-gradient(20deg, rgba(241,85,76,1) 0%, rgba(247,225,150,1) 100%);
+}
+
+/* optional: tooltip style your component already uses can stay */
