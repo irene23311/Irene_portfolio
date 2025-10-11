@@ -42,10 +42,9 @@ function NodeMap({
  const handleWheel = (e) => {
    e.preventDefault();
    const { clientX, clientY, deltaY } = e;
-   const zoomStep = 0.05; // 5% per wheel tick
-  const factor = deltaY > 0 ? 1 - zoomStep : 1 + zoomStep; // wheel down -> zoom out, up -> zoom in (by 0.9 (out) or 1.1 (in).)
+   const factor = deltaY > 0 ? 0.9 : 1.1;
    const newZoom = clampZoom(zoomLevel * factor);
-   if (newZoom === zoomLevel) return; // hit min/max, nothing to do
+   if (newZoom === zoomLevel) return; // no change
 
 
    // Get cursor position relative to viewport top-left
@@ -117,7 +116,7 @@ function NodeMap({
  };
 
 
- const nodeBaseSize = 30; // px at zoom = 1 inside world space, change node size here
+ const nodeBaseSize = 20; // px at zoom = 1 inside world space
 
 
  return (
@@ -146,92 +145,56 @@ function NodeMap({
            pointerEvents: 'none'
          }}
        />
-        {projects.map((p) => (
-          //node ui start here
-          <div
-            key={p.id}
-            className="node group"
-            style={{
-              position: 'absolute',
-              left: p.x,
-              top: p.y,
-              width: nodeBaseSize * 1.5, // width of node
-              height: nodeBaseSize * 1.5,// height of node
-              transform: 'translate(-50%,-50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer'
-            }}
-            title={p.title}
-            tabIndex={0}
-            onClick={(e) => {
-              e.stopPropagation();
-              onProjectSelect(p);
-            }}
-            onKeyDown={(e) => e.key === 'Enter' && onProjectSelect(p)}
-            aria-label={`Project ${p.title}`}
-          >
-            {/* node UI starts here */}
-            <svg
-              width="100%"
-              height="100%"
-              viewBox="0 0 180 48"
-              preserveAspectRatio="none"
-              role="img"
-              aria-hidden="true"
-            >
-              <defs>
-                <linearGradient id={`grad-${p.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#D7C5F5" />
-                <stop offset="100%" stopColor="#A8C8F6" />
-                </linearGradient>
-
-                <linearGradient id={`gloss-${p.id}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="rgba(255,255,255,0.28)" />
-                  <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-                </linearGradient>
-//not showing anything on the screen
-                <filter id={`shadow-${p.id}`} x="-50%" y="-50%" width="200%" height="200%">
-                  <feDropShadow dx="0" dy="6" stdDeviation="8" floodColor="#000000ff" floodOpacity="0.25" />
-                </filter>
-              </defs>
-
-              {/* main pill (back layer) */}
-              <rect x="8" y="6" rx="64" ry="64" width="148" height="36" fill="#f6d8a8" />
-
-              {/* shadowed gradient top layer */}
-              <rect x="6" y="4" rx="64" ry="64" width="148" height="36" fill={`url(#grad-${p.id})`} filter={`url(#shadow-${p.id})`} />
-
-              {/* subtle gloss */}
-              <rect x="6" y="4" rx="64" ry="64" width="148" height="18" fill={`url(#gloss-${p.id})`} opacity="0.7" />
-
-              {/* text */}
-              <text x="80" y="30" textAnchor="middle" fill="#0b0b0b" fontWeight="800" fontSize="16" style={{ fontFamily: 'DM Sans, system-ui, -apple-system, Segoe UI, Roboto' }}>
-                {"N"}
-              </text>
-            </svg>
-
-            {/* tooltip / label (preserve current behavior) */}
-            <div
-              className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"
-              style={{
-                position: 'absolute',
-                top: '110%',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                background: 'rgba(68, 99, 165, 0.9)',
-                color: 'white',
-                padding: '4px 8px',
-                borderRadius: 6,
-                fontSize: 12,
-                whiteSpace: 'nowrap'
-              }}
-            >
-              {p.title}
-            </div>
-          </div>
-        ))}
+       {projects.map((p) => (
+         <div
+           key={p.id}
+           className="node group"
+           style={{
+             position: 'absolute',
+             left: p.x,
+             top: p.y,
+             width: nodeBaseSize,
+             height: nodeBaseSize,
+             borderRadius: '50%',
+             background: 'var(--primary-color, #E7F5de)',
+             display: 'flex',
+             alignItems: 'center',
+             justifyContent: 'center',
+             color: 'black',
+             fontSize: 10,
+             cursor: 'pointer',
+             boxShadow: '0 0 4px rgba(0,0,0,0.25)'
+           }}
+           title={p.title}
+           tabIndex={0}
+           onClick={(e) => {
+             e.stopPropagation();
+             onProjectSelect(p);
+           }}
+           onKeyDown={(e) => e.key === 'Enter' && onProjectSelect(p)}
+           aria-label={`Project ${p.title}`}
+         >
+           <span style={{ fontWeight: 600 }}>{p.title[0]}</span>
+           {/* Tooltip / label */}
+           <div
+             className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"
+             style={{
+               position: 'absolute',
+               top: 20,
+               left: '50%',
+               transform: 'translateX(-50%)',
+               background: 'rgba(17,24,39,0.9)',
+               color: 'white',
+               padding: '4px 8px',
+               borderRadius: 6,
+               fontSize: 12,
+               whiteSpace: 'nowrap'
+             }}
+           >
+             {p.title}
+           </div>
+         </div>
+       ))}
      </div>
      {/* HUD overlay */}
      <div className="absolute left-3 top-3 px-3 py-2 rounded bg-white/80 shadow backdrop-blur text-xs space-x-3 font-mono flex">

@@ -19,12 +19,13 @@ function ProjectPanel({ project, onClose, onRefresh }) {
         }
       }
     };
-
+    {/* likely uses this to animate the panel sliding in/out. */}
     return (
       <div className={`panel-slide ${project ? 'open' : ''} fixed right-0 top-0 h-full w-96 bg-white shadow-2xl z-50 overflow-y-auto`} data-name="project-panel" data-file="components/ProjectPanel.js">
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-[var(--text-primary)]">{project.title}</h2>
+            {/*close button*/}
             <button 
               onClick={onClose}
               className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
@@ -34,6 +35,7 @@ function ProjectPanel({ project, onClose, onRefresh }) {
             </button>
           </div>
 
+          {/*size of hero image*/}
           <div className="mb-6">
             <img 
               src={project.heroImage} 
@@ -42,6 +44,7 @@ function ProjectPanel({ project, onClose, onRefresh }) {
             />
           </div>
 
+          {/*Meta block (year, category, tags)*/}
           <div className="mb-4">
             <div className="flex items-center gap-4 mb-2">
               <span className="text-sm text-[var(--text-secondary)]">{project.year}</span>
@@ -53,7 +56,7 @@ function ProjectPanel({ project, onClose, onRefresh }) {
               ))}
             </div>
           </div>
-
+          {/*Project Description*/}
           <p className="text-[var(--text-secondary)] mb-6 leading-relaxed">
             {project.description}
           </p>

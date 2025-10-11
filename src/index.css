@@ -1,14 +1,12 @@
 /* ---- Trickle-like design tokens ---- */
 :root{
-  --bg: #0a1b25;
-  --panel: #ffffff;
-  --border: #e5e7eb;
-  --text: #0e1fb7;
+  --bg: #213f80; 
+    --panel: #e7f5de;
+    --border: #ba24d1;
+    --text: #0e1f13;
   --muted: #6b7280;
   --chip-bg: #f1f5f9;
   --chip-text: #334155;
-  --brand: #2563eb; /* toolbar button blue */
-  --accent: #10b981; /* success/green dot */
 }
 
 /* ---- Global resets ---- */
@@ -44,12 +42,40 @@ body{
 
 /* ---- Toolbar (chips + search) ---- */
 .toolbar{
+  position:fixed;
+  top: 16px;
+  left:16px;
+  right:16px;
+  z-index:1000;
+  margin:0;
+  width:auto;
+
   display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 8px 10px;
-  box-shadow: 0 1px 0 rgba(15,23,42,.03);
+  box-shadow: 0 1px 0 rgba(86, 116, 186, 0.03);
+}
+
+/* fixed toolbar container: pins toolbar to top of viewport and centers within max-width */
+.toolbarOverlay {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 1280px;
+  z-index: 1000;
+  pointer-events: none; /* allow toolbar's inner elements to handle pointer events */
+}
+.toolbarOverlay > .toolbar {
+  pointer-events: auto; /* re-enable pointer events for the actual toolbar */
+}
+
+/* spacer to preserve layout when toolbar is fixed */
+.toolbar-spacer {
+  height: 32px; /* adjust if your toolbar has different height */
 }
 .chip{
   display: inline-flex; align-items:center; gap:6px;
@@ -84,13 +110,17 @@ body{
 
 /* ---- Reset button ---- */
 .btn{
-  appearance: none; border: 1px solid var(--border); background: var(--panel);
-  padding: 8px 12px; border-radius: 8px; font-weight: 600; cursor: pointer;
+  appearance: none; 
+  border: 1px solid var(--border); 
+  background: var(--panel);
+  padding: 8px 12px; 
+  border-radius: 8px; 
+  font-weight: 600; 
+  cursor: pointer;
 }
-.btn.primary{ background: var(--brand); border-color: var(--brand); color: #fff; }
-.btn:hover{ filter: brightness(0.97); }
 
-/* ---- Map canvas background ---- */
-.map-bg{
-  background: linear-gradient(180deg, #f9fafb, #eef2f7);
-}
+.btn.primary{ 
+  background: var(--brand); 
+  border-color: var(--brand); 
+  color: #fff; }
+.btn:hover{ filter: brightness(0.97); }
