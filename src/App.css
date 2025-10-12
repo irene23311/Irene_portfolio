@@ -81,3 +81,63 @@
 }
 
 /* optional: tooltip style your component already uses can stay */
+/* ---------- Toolbar overlay, box, and spacer ---------- */
+
+/* theme vars (tweak to taste) */
+:root{
+  --panel: #f6f8fb;            /* toolbar background */
+  --border: #d9e0ea;           /* subtle border */
+}
+
+/* The fixed layer that pins the toolbar to the top of the viewport */
+.toolbarOverlay{
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;     /* center the toolbar horizontally */
+  pointer-events: none;        /* let clicks pass through this overlay… */
+}
+
+/* The actual toolbar “card” (make sure Toolbar’s outermost element has className="toolbar") */
+.toolbar{
+  pointer-events: auto;        /* …but the toolbar itself is clickable */
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  max-width: 1200px;           /* optional cap so it doesn’t stretch too wide */
+  width: 100%;
+}
+
+/* If your Toolbar component does NOT set className="toolbar",
+   this fallback will style its first child instead: */
+.toolbarOverlay > *:first-child{
+  pointer-events: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  max-width: 1200px;
+  width: 100%;
+}
+
+/* Spacer that reserves space equal to the measured toolbar height */
+.toolbar-spacer{
+  height: 0;                   /* JS sets the real height */
+  transition: height .2s ease; /* smooth resize when chips wrap */
+  /* debug background if you want to see it: */
+  /* background: rgba(120,120,120,.15); */
+}

@@ -1,17 +1,26 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { projects } from "../data/projects";
 import NodeMap from "../components/NodeMap";
 
-export default function Home() {
+export default function Home({ selectedTags = [], onToggleTag = () => {} }) {
   const [selectedProject, setSelectedProject] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
 
+  // Filter projects by selected tags. If no tags selected, return all projects.
+  const filteredProjects = useMemo(() => {
+    if (!selectedTags || selectedTags.length === 0) return projects;
+    return projects.filter((p) =>
+      // project must include all selected tags
+      selectedTags.every((tag) => p.tags.includes(tag))
+    );
+  }, [selectedTags]);
+
   return (
     <main className="relative w-full h-screen overflow-hidden">
       <NodeMap
-        projects={projects}
+        projects={filteredProjects}
         onProjectSelect={setSelectedProject}
         zoomLevel={zoomLevel}
         setZoomLevel={setZoomLevel}
