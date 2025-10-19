@@ -1,10 +1,11 @@
 {/* top-level React component—the first UI your app renders.*/}
 
-import React, { useRef, useState, useLayoutEffect } from "react";
+import React, { useRef, useState, useLayoutEffect } from "react"; //curretnly unused
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import Toolbar from "./components/Toolbar";
 import "./App.css";
+import logo from "./assets/logo.png";
 
 export default function App() {
   const [selectedTags, setSelectedTags] = useState([]);
@@ -31,7 +32,11 @@ export default function App() {
     return () => observer.disconnect();
   },[]);
   return (
+    
     <BrowserRouter>
+    {/* Background now handled inside NodeMap to zoom/pan with the world */}
+
+
   <div ref={toolbarRef}className="toolbarOverlay">
     <Toolbar
       selectedTags={selectedTags}
@@ -43,34 +48,14 @@ export default function App() {
    <div className="toolbar-spacer"
   aria-hidden="true"
   style={{ height: toolbarHeight }} />
-      <nav 
-      // Inline styles for the nav element
-        style={{ 
-          position: "fixed",
-          top: 200,
-          left: 0,
-          width: "10%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-          zIndex: 1000,
-          margin: 0,
-          height: "50px",
-          boxSizing: "border-box",
-          padding: "10px"
-        }}
-      >
-        <Link
-         to="/"
-         style={{
-        backgroundColor: "#f9fafb",
-        color: "#333",
-        padding: "5px 10px",
-        borderRadius: "8px",
-        textDecoration: "none"
-        }}
-         >Home</Link>
+
+  {/* logo and nav */}
+    <header className="app-header">
+      <img src={logo} className="logo" alt="logo" />
+    </header>
+   
+      <nav className="nav-bar">
+        <Link to="/" className="nav-link">Home</Link>
       </nav>
 
       <Routes>
