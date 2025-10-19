@@ -172,14 +172,6 @@ function NodeMap({
        {/* Optional grid */}
        <div
          aria-hidden
-         style={{
-           position: 'absolute',
-           inset: 0,
-           backgroundImage:
-             'linear-gradient(#cbd5e133 1px, transparent 1px), linear-gradient(90deg,#cbd5e133 1px, transparent 1px)',
-           backgroundSize: '80px 80px',
-           pointerEvents: 'none'
-        }}
        />
 
        {/* SVG layer for connection lines */}

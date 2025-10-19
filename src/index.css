@@ -69,14 +69,6 @@ body{
   overflow: auto;
 }
 
-/* ---- Mini map card ---- */
-.minimap{
-  width: 120px; height: 90px; background: var(--panel);
-  border: 1px solid var(--border); border-radius: 10px;
-  box-shadow: 0 1px 0 rgba(15,23,42,.03);
-  display: grid; place-items: center; font-size: 12px; color: var(--muted);
-}
-
 /* ---- Reset button ---- */
 .btn{
   appearance: none; 
