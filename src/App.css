@@ -6,16 +6,21 @@
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
+  position: fixed;
+  top:20px;
+  left: 20px;
+  height: 50px;
+  z-index:2000;
+  padding: 1.5px;
   will-change: filter;
   transition: filter 300ms;
+  cursor:pointer;
 }
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em #98e5faaa);
 }
 
 @keyframes logo-spin {
@@ -80,4 +85,70 @@
   background: linear-gradient(20deg, rgba(241,85,76,1) 0%, rgba(247,225,150,1) 100%);
 }
 
-/* optional: tooltip style your component already uses can stay */
+/* theme vars (tweak to taste) */
+:root{
+  --panel: #f6f8fb;            /* toolbar background */
+  --border: #d9e0ea;           /* subtle border */
+}
+
+.toolbarOverlay{
+  position: flex;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;     /* center the toolbar horizontally */
+  pointer-events: none;        /* let clicks pass through this overlay… */
+}
+
+.interactive-img {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+}
+
+.interactive-img img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.8s ease;
+  cursor: zoom-in;
+  object-fit: contain;
+}
+
+/* zoom on hover */
+.interactive-img:hover img {
+  transform: scale(1.15);
+}
+
+.nav-bar {
+  position: fixed;
+  top: 80px;
+  left: 10px;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  text-align: center;
+  z-index: 1000;
+  margin: 0;
+  height: 20px;
+}
+.nav-link {
+  background-color: #f9fafb;
+  color: #000000ff;
+  padding: 5px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.nav-link:hover {
+  background-color: #e9e9e9; /* subtle hover effect */
+}

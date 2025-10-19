@@ -1,12 +1,4 @@
-/* eslint-disable react/prop-types */
-import React from "react";
 
-/**
- * Props:
- *  - selectedTags: string[]
- *  - onToggleTag: (tag: string) => void
- *  - onAddProject?: () => void
- */
 export default function Toolbar({ selectedTags = [], onToggleTag, onAddProject }) {
   const tags = [
     "Data Viz",
