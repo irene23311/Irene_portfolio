@@ -2,6 +2,7 @@
 import { useState, useMemo, useLayoutEffect } from "react";
 import { projects } from "../data/projects";
 import NodeMap from "../components/NodeMap";
+import bgImg from '../assets/Gemini_edit.jpg';
 
 export default function Home({ selectedTags = [] }) {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -56,7 +57,7 @@ export default function Home({ selectedTags = [] }) {
         lineColor="#f48814ff"
         lineWidth={3}
         lineOpacity={0.8}
-        backgroundImageUrl={'/Gemini_edit.jpg'}
+        backgroundImageUrl={bgImg}
         backgroundOpacity={0.9}
         backgroundSize={'contain'}
         backgroundRepeat={'no-repeat'}

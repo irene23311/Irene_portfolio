@@ -32,8 +32,8 @@ export default function App() {
     return () => observer.disconnect();
   },[]);
   return (
-    
-    <BrowserRouter>
+
+    <BrowserRouter basename="Irene_portfolio">
     {/* Background now handled inside NodeMap to zoom/pan with the world */}
 
 
