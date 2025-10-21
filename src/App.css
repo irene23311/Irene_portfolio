@@ -49,58 +49,13 @@
 /* ——— map node pill styles ——— */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap');
 
-.map-node-pill {
-  font-family: 'DM Sans', sans-serif;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  /* size comes from inline style in JSX; these are just fallbacks */
-  width: 80px;
-  height: 40px;
-
-  color: #000;
-  background-color: rgba(255,255,255,.3);
-  border-radius: 8px;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  font-weight: 500;
-  box-shadow: 1px 1px 1rem rgb(26 26 26 / 15%);
-  cursor: pointer;
-  transition: transform .2s ease;
-}
-
-.map-node-pill:hover {
-  transform: translate(-1px,-1px);
-}
-
-.map-node-pill .grad {
-  position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  transform: translate(0.5rem,0.5rem);
-  pointer-events: none;
-  z-index: -1;
-  background: linear-gradient(20deg, rgba(241,85,76,1) 0%, rgba(247,225,150,1) 100%);
-}
-
 /* theme vars (tweak to taste) */
 :root{
   --panel: #f6f8fb;            /* toolbar background */
   --border: #d9e0ea;           /* subtle border */
 }
 
-.toolbarOverlay{
-  position: flex;
-  top: 16px;
-  left: 16px;
-  right: 16px;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;     /* center the toolbar horizontally */
-  pointer-events: none;        /* let clicks pass through this overlay… */
-}
+
 
 .interactive-img {
   width: 100vw;
@@ -128,8 +83,8 @@
 .nav-bar {
   position: fixed;
   top: 80px;
-  left: 10px;
-  width: 80px;
+  left: 15px;
+  width: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -137,18 +92,66 @@
   text-align: center;
   z-index: 1000;
   margin: 0;
-  height: 20px;
 }
 .nav-link {
-  background-color: #f9fafb;
+  background-color: #01060c;
   color: #000000ff;
   padding: 5px 10px;
   border-radius: 8px;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 50;
   transition: background-color 0.2s ease;
 }
 
 .nav-link:hover {
-  background-color: #e9e9e9; /* subtle hover effect */
+  background-color: #cc61be; /* subtle hover effect */
+}
+
+
+/* hovered bar */ 
+.card {
+  position:fixed;
+  top: 10px;
+  right:20px;
+  width: 210px;
+  height: 254px;
+  border-radius: 4px;
+  background: #212121;
+  display: flex;
+  gap: 5px;
+  padding: .4em;
+  z-index: 1000;
+}
+
+.card p {
+  height: 100%;
+  flex: 1;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all .5s;
+  background: #212121;
+  border: 1px solid #ff5a91;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card p:hover {
+  flex: 4;
+}
+
+.card p span {
+  min-width: 14em;
+  padding: .5em;
+  text-align: center;
+  transform: rotate(-90deg);
+  transition: all .5s;
+  text-transform: uppercase;
+  color: #ff568e;
+  letter-spacing: .1em;
+}
+
+.card p:hover span {
+  transform: rotate(0);
 }

@@ -26,7 +26,7 @@ body{
   position:fixed;
   top: 16px;
   left:100px;
-  right:16px;
+  right:310px;
   z-index:1000;
   margin:0;
   width:auto;
@@ -39,21 +39,31 @@ body{
   box-shadow: 0 1px 0 rgba(86, 116, 186, 0.03);
 }
 
-
-
 /* spacer to preserve layout when toolbar is fixed */
 .toolbar-spacer {
   height: 52px; /* adjust if your toolbar has different height */
-  background: gray
+  background: gray;
 }
 .chip{
   display: inline-flex; align-items:center; gap:6px;
-  font-size: 13px; line-height: 1;
+  font-size: 14px; line-height: 1;
   padding: 8px 10px; border-radius: 999px;
   background: var(--chip-bg); color: var(--chip-text);
   border: 1px solid var(--border);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.chip:hover{
+  background: #e2e8f0;
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 .chip.is-active{ background: #e8eefc; border-color:#c7d2fe; color:#1e40af; }
+.chip.is-active:hover{
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
 
 .search{
   height: 32px; min-width: 180px;

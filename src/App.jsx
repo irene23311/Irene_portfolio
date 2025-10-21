@@ -31,20 +31,28 @@ export default function App() {
     observer.observe(toolbarEl);
     return () => observer.disconnect();
   },[]);
+
   return (
 
     <BrowserRouter basename="Irene_portfolio">
     {/* Background now handled inside NodeMap to zoom/pan with the world */}
+    
+    <div className="card">
+      <p><span>HOME</span></p>
+      <p><span>ABOUT</span></p>
+      <p><span>PROJECTS</span></p>
+      <p><span>CONTACT</span></p>
+    </div>
 
-
-  <div ref={toolbarRef}className="toolbarOverlay">
+  <div ref={toolbarRef} className="toolbarOverlay">
     <Toolbar
       selectedTags={selectedTags}
       onToggleTag={onToggleTag}
       onAddProject={() => alert("Add project clicked!")}
     />
    </div>
-   {/* spacer matches toolbar height so page content doesn't jump under fixed toolbar */}
+
+ 
    <div className="toolbar-spacer"
   aria-hidden="true"
   style={{ height: toolbarHeight }} />
@@ -55,7 +63,7 @@ export default function App() {
     </header>
    
       <nav className="nav-bar">
-        <Link to="/" className="nav-link">Home</Link>
+        <Link to="/" className="nav-link">Irene</Link>
       </nav>
 
       <Routes>

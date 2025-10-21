@@ -74,15 +74,15 @@ export default function Home({ selectedTags = [] }) {
           <img
             src={selectedProject.heroImage}
             alt={selectedProject.title}
-            style={{ width: "100%", borderRadius: "8px" }}
+            style={{ width: "50%", borderRadius: "8px" }}
           />
           <button
             style={{
-              marginTop: "1rem",
+              marginTop: "2rem",
               background: "#8f5e5eff",
               color: "white",
               padding: "0.5rem 1rem",
-              borderRadius: "4px",
+              borderRadius: "8px",
             }}
             onClick={() => setSelectedProject(null)}
           >
