@@ -1,8 +1,9 @@
 {/* top-level React component—the first UI your app renders.*/}
 
 import React, { useRef, useState, useLayoutEffect } from "react"; //curretnly unused
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
+import Projects from "./pages/Projects";
 import Toolbar from "./components/Toolbar";
 import "./App.css";
 import logo from "./assets/logo.png";
@@ -33,46 +34,74 @@ export default function App() {
   },[]);
 
   return (
-
-    <BrowserRouter basename="Irene_portfolio">
-    {/* Background now handled inside NodeMap to zoom/pan with the world */}
-    
-    <div className="card">
-      <p><span>HOME</span></p>
-      <p><span>ABOUT</span></p>
-      <p><span>PROJECTS</span></p>
-      <p><span>CONTACT</span></p>
-    </div>
-
-  <div ref={toolbarRef} className="toolbarOverlay">
-    <Toolbar
-      selectedTags={selectedTags}
-      onToggleTag={onToggleTag}
-      onAddProject={() => alert("Add project clicked!")}
-    />
-   </div>
-
- 
-   <div className="toolbar-spacer"
-  aria-hidden="true"
-  style={{ height: toolbarHeight }} />
-
-  {/* logo and nav */}
-    <header className="app-header">
-      <img src={logo} className="logo" alt="logo" />
-    </header>
-   
-      <nav className="nav-bar">
-        <Link to="/" className="nav-link">Irene</Link>
-      </nav>
-
-      <Routes>
-        <Route
-          path="/"
-          element={<Home selectedTags={selectedTags} onToggleTag={onToggleTag} />}
-        />
-      </Routes>
-
+    <BrowserRouter basename="/Irene_portfolio">
+      <AppContent />
     </BrowserRouter>
   );
+
+  function AppContent() {
+    // location is available because this component is rendered inside BrowserRouter
+    const location = useLocation();
+    const isHome = location.pathname === "/";
+
+    return (
+      <>
+        {/* show these only on the home route */}
+        {isHome && (
+          <>
+            <div className="card">
+              <Link to="/">
+                <span>home</span>
+              </Link>
+              <Link to="/projects">
+                <span>Projects</span>
+              </Link>
+              <Link to="/about">
+                <span>about</span>
+              </Link>
+              <Link to="/contact">
+                <span>contact</span>
+              </Link>
+            </div>
+
+            <div ref={toolbarRef} className="toolbarOverlay">
+              <Toolbar
+                selectedTags={selectedTags}
+                onToggleTag={onToggleTag}
+                onAddProject={() => alert("Add project clicked!")}
+              />
+            </div>
+
+            <div
+              className="toolbar-spacer"
+              aria-hidden="true"
+              style={{ height: toolbarHeight }}
+            />
+
+            {/* logo and nav */}
+            <header className="app-header">
+              <img src={logo} className="logo" alt="logo" />
+            </header>
+
+            <nav className="nav-bar">
+              <Link to="/" className="nav-link">
+                Irene
+              </Link>
+            </nav>
+          </>
+        )}
+
+        <Routes>
+          <Route
+            path="/"
+            element={<Home selectedTags={selectedTags} onToggleTag={onToggleTag} />}
+          />
+          <Route
+            path="/projects"
+            element={<Projects selectedTags={selectedTags} onToggleTag={onToggleTag} />}
+          />
+        </Routes>
+      </>
+    );
+  }
 }

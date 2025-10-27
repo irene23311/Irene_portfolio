@@ -2,14 +2,13 @@
 export default function Toolbar({ selectedTags = [], onToggleTag, onAddProject }) {
   const tags = [
     "Data Viz",
-    "React",
     "Animation",
     "Paintings",
     "Motion Graphics",
     "Front-end",
-    "AR",
-    "Museums",
+    "VR",
     "Interactive",
+    "PComp",
     "Installations",
   ];
 

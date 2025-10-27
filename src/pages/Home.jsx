@@ -9,8 +9,8 @@ export default function Home({ selectedTags = [] }) {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
   // Define world dimensions to match NodeMap's world
-  const worldWidth = 2000;
-  const worldHeight = 1400;
+  const worldWidth = 2000; 
+  const worldHeight = 1400; 
 
   // Center the world on initial mount
   useLayoutEffect(() => {

@@ -1,0 +1,17 @@
+/* src/styles/Projects.css */
+.Projects-page {
+  color: #eaeaea;        /* default text color on dark bg */
+  padding-top: 96px;     /* push content below fixed nav */
+  
+}
+
+.Projects-title {
+  position: absolute;
+  top:225px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ff5a91;        /* overrides page color for title */
+  text-align: center;
+  margin-top: 24px;
+  letter-spacing: 1px;
+}

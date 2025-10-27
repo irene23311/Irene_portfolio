@@ -1,3 +1,8 @@
+/* ——— map node pill styles ——— */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap');
+
+/* theme vars (tweak to taste) */
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -18,9 +23,7 @@
 }
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #98e5faaa);
+  animation:logo-spin forwards 2s linear;
 }
 
 @keyframes logo-spin {
@@ -38,20 +41,13 @@
   }
 }
 
-.card {
-  padding: 2em;
-}
-
 .read-the-docs {
   color: #888;
 }
 
-/* ——— map node pill styles ——— */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap');
 
-/* theme vars (tweak to taste) */
 :root{
-  --panel: #f6f8fb;            /* toolbar background */
+  --panel: #a8bdde;            /* toolbar background */
   --border: #d9e0ea;           /* subtle border */
 }
 
@@ -113,8 +109,8 @@
   position:fixed;
   top: 10px;
   right:20px;
-  width: 210px;
-  height: 254px;
+  width: 200px;
+  height: 200px;
   border-radius: 4px;
   background: #212121;
   display: flex;
@@ -123,35 +119,36 @@
   z-index: 1000;
 }
 
-.card p {
+.card a {
   height: 100%;
+  min-width: 0;
   flex: 1;
   overflow: hidden;
   cursor: pointer;
   border-radius: 2px;
   transition: all .5s;
   background: #212121;
-  border: 1px solid #ff5a91;
+  border: 1px solid #5afffa;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.card p:hover {
+.card a:hover {
   flex: 4;
 }
 
-.card p span {
+.card a span {
   min-width: 14em;
   padding: .5em;
   text-align: center;
   transform: rotate(-90deg);
   transition: all .5s;
   text-transform: uppercase;
-  color: #ff568e;
+  color: #5afffa;
   letter-spacing: .1em;
 }
 
-.card p:hover span {
+.card a:hover span {
   transform: rotate(0);
 }
