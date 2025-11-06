@@ -4,6 +4,8 @@ import { projects } from "../data/projects";
 import NodeMap from "../components/NodeMap";
 import IntroSection from "../components/IntroSection.jsx";
 import MapLazy from "../components/MapLazy";
+import "./Home.css";
+
 
 
 export default function Home({ selectedTags = [] }) {

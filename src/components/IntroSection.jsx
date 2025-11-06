@@ -23,7 +23,7 @@ export default function IntroSection({ onEnter }) {
         Explore the Map
       </button>
       <div style={{ marginTop: 12 }}>
-        <a href="/#map" style={{ textDecoration: "underline", opacity: 0.75 }}>
+        <a href="#map" style={{ textDecoration: "underline", opacity: 0.75 }}>
           Skip to map
         </a>
       </div>
