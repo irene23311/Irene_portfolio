@@ -51,11 +51,14 @@ function NodeMap({
 
  // Cursor‑centred wheel zoom.
  const handleWheel = (e) => {
-   e.preventDefault();
-   const { clientX, clientY, deltaY } = e;
-   const factor = deltaY > 0 ? 0.9 : 1.1;
-   const newZoom = clampZoom(zoomLevel * factor);
-   if (newZoom === zoomLevel) return; // no change
+  // Only zoom when user holds Ctrl (Windows/Linux) or Meta (Cmd on macOS).
+  // Otherwise allow the page to scroll normally.
+  if (!(e.ctrlKey || e.metaKey)) return;
+  e.preventDefault();
+  const { clientX, clientY, deltaY } = e;
+  const factor = deltaY > 0 ? 0.9 : 1.1;
+  const newZoom = clampZoom(zoomLevel * factor);
+  if (newZoom === zoomLevel) return; // no change
 
 
    // Get cursor position relative to viewport top-left
@@ -80,8 +83,8 @@ function NodeMap({
 
 
  const handleMouseDown = (e) => {
-   // Ignore drags that start on interactive node elements (allow click)
-   if (e.target.closest('.node')) return;
+  // Ignore drags that start on interactive elements (allow click on cards)
+  if (e.target.closest('.node') || e.target.closest('.project-card')) return;
    isDraggingRef.current = true;
    dragStartRef.current = { x: e.clientX, y: e.clientY };
    panStartRef.current = { ...panOffset };
@@ -138,6 +141,54 @@ function NodeMap({
    return map;
  }, [projects]);
 
+const CARD_W = 140;
+const CARD_H = 190;
+
+// Small presentational card for a project (local, avoids external dependency)
+function ProjectCard({ project, onSelect }) {
+  const cardW = CARD_W;
+  const cardH = CARD_H;
+  return (
+    <button
+      type="button"
+      className="project-card"
+      onClick={(e) => { e.stopPropagation(); onSelect(project); }}
+      onKeyDown={(e) => e.key === 'Enter' && onSelect(project)}
+      aria-label={`Open ${project.title}`}
+      style={{
+        width: cardW,
+        height: cardH,
+        display: 'flex',
+        flexDirection: 'column',
+        background: '#1f2121',
+        borderRadius: 12,
+        border: 'none',
+        padding: 6,
+        boxShadow: '0 6px 18px rgba(0,0,0,0.35)',
+        color: 'white',
+        cursor: 'pointer'
+      }}
+    >
+      <div style={{ flex: 1, position: 'relative', borderRadius: 10, overflow: 'hidden' }}>
+        <img
+          src={project.heroImage}
+          alt={project.title}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block'
+          }}
+        />
+      </div>
+      <div style={{ marginTop: 8, fontSize: 12, fontFamily: 'mono', display: 'flex', justifyContent: 'space-between' }}>
+        <span style={{ fontWeight: 600 }}>{project.title}</span>
+        <span style={{ opacity: 0.6, fontSize: 11 }}>#{project.id}</span>
+      </div>
+    </button>
+  );
+}
+
 
  return (
    <div
@@ -192,11 +243,11 @@ function NodeMap({
              const fromNode = nodeMap[conn.from];
              const toNode = nodeMap[conn.to];
              if (!fromNode || !toNode) return null;
-             // Calculate center of each node
-             const x1 = fromNode.x + nodeBaseSize / 2;
-             const y1 = fromNode.y + nodeBaseSize / 2;
-             const x2 = toNode.x + nodeBaseSize / 2;
-             const y2 = toNode.y + nodeBaseSize / 2;
+             // Calculate center of each card (use card dimensions)
+             const x1 = fromNode.x + CARD_W / 2;
+             const y1 = fromNode.y + CARD_H / 2;
+             const x2 = toNode.x + CARD_W / 2;
+             const y2 = toNode.y + CARD_H / 2;
              
              // Calculate control point for quadratic bezier curve
              // Place it perpendicular to the midpoint for a smooth arc
@@ -228,55 +279,22 @@ function NodeMap({
          </svg>
        )}
 
-        <div style={{ position: 'relative', zIndex: 1 }}>
+        <div style={{ position: 'relative', zIndex: 2 }}>
           {projects.map((p) => (
             <div
               key={p.id}
-              className="node group"
               style={{
                 position: 'absolute',
-                left: p.x,
-                top: p.y,
-                width: nodeBaseSize,
-                height: nodeBaseSize,
-                borderRadius: '50%',
-                background: 'var(--primary-color, #E7F5de)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'black',
-                fontSize: 10,
-                cursor: 'pointer',
-                boxShadow: '0 0 4px rgba(0,0,0,0.25)'
+                left: p.x - CARD_W / 2,
+                top: p.y - CARD_H / 2,
+                width: CARD_W,
+                height: CARD_H,
+                transformOrigin: 'top left',
+                zIndex: 2,
+                pointerEvents: 'auto'
               }}
-              title={p.title}
-              tabIndex={0}
-              onClick={(e) => {
-                e.stopPropagation();
-                onProjectSelect(p);
-              }}
-              onKeyDown={(e) => e.key === 'Enter' && onProjectSelect(p)}
-              aria-label={`Project ${p.title}`}
             >
-              <span style={{ fontWeight: 600 }}>{p.title[0]}</span>
-              {/* Tooltip / label */}
-              <div
-                className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"
-                style={{
-                  position: 'absolute',
-                  top: 20,
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  background: 'rgba(17,24,39,0.9)',
-                  color: 'white',
-                  padding: '4px 8px',
-                  borderRadius: 6,
-                  fontSize: 12,
-                  whiteSpace: 'nowrap'
-                }}
-              >
-                {p.title}
-              </div>
+              <ProjectCard project={p} onSelect={onProjectSelect} />
             </div>
           ))}
         </div>

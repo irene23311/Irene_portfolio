@@ -1,12 +1,13 @@
-{/* top-level React component—the first UI your app renders.*/}
+// top-level React component—the first UI your app renders.
 
-import React, { useRef, useState, useLayoutEffect } from "react"; //curretnly unused
+import React, { useRef, useState, useLayoutEffect } from "react"; //currently unused
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Projects from "./pages/Projects";
 import Toolbar from "./components/Toolbar";
 import "./App.css";
 import logo from "./assets/logo.png";
+
 
 export default function App() {
   const [selectedTags, setSelectedTags] = useState([]);
@@ -34,7 +35,7 @@ export default function App() {
   },[]);
 
   return (
-    <BrowserRouter basename="/Irene_portfolio">
+    <BrowserRouter basename="/irene_portfolio">
       <AppContent />
     </BrowserRouter>
   );

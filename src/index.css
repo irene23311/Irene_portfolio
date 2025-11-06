@@ -1,6 +1,6 @@
 /* ---- Trickle-like design tokens ---- */
 :root{
-  --bg: #000000; 
+  --bg: #ffffff; 
     --panel: #e7f5de;
     --border: #ba24d1;
     --text: #ffffff;
@@ -95,3 +95,4 @@ body{
   border-color: var(--brand); 
   color: #fff; }
 .btn:hover{ filter: brightness(0.97); }
+

@@ -1,13 +1,21 @@
 /* eslint-disable react/prop-types */
-import { useState, useMemo, useLayoutEffect } from "react";
+import { useState, useMemo, useLayoutEffect,useEffect,useRef} from "react";
 import { projects } from "../data/projects";
 import NodeMap from "../components/NodeMap";
-import bgImg from '../assets/Gemini_edit.jpg';
+import IntroSection from "../components/IntroSection.jsx";
+import MapLazy from "../components/MapLazy";
+
 
 export default function Home({ selectedTags = [] }) {
   const [selectedProject, setSelectedProject] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+
+  const mapRef = useRef(null);
+  const scrollToMap = () => {
+    mapRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   // Define world dimensions to match NodeMap's world
   const worldWidth = 2000; 
   const worldHeight = 1400; 
@@ -41,55 +49,59 @@ export default function Home({ selectedTags = [] }) {
     { from: 4, to: 6 },
     { from: 1, to: 6 },
   ];
+  const nodeMapProps = {
+  projects: filteredProjects,
+  onProjectSelect: setSelectedProject,
+  zoomLevel,
+  setZoomLevel,
+  panOffset,
+  setPanOffset,
+  worldWidth,
+  worldHeight,
+  connections,
+  lineColor: "#f48814ff",
+  lineWidth: 3,
+  lineOpacity: 0.8,
+};
 
   return (
-    <main className="relative w-full h-screen overflow-hidden">
-      <NodeMap
-        projects={filteredProjects}
-        onProjectSelect={setSelectedProject}
-        zoomLevel={zoomLevel}
-        setZoomLevel={setZoomLevel}
-        panOffset={panOffset}
-        setPanOffset={setPanOffset}
-        worldWidth={worldWidth}
-        worldHeight={worldHeight}
-        connections={connections}
-        lineColor="#f48814ff"
-        lineWidth={3}
-        lineOpacity={0.8}
-        backgroundImageUrl={bgImg}
-        backgroundOpacity={0.9}
-        backgroundSize={'contain'}
-        backgroundRepeat={'no-repeat'}
-        backgroundPosition={'center'}
-      />
+    <main className="page">
+      {/* Section 1 — Intro (use IntroSection component) */}
+      <section id="intro" className="vh">
+        <IntroSection onEnter={scrollToMap} />
+      </section>
 
-      {selectedProject && (
-        <div
-          className="absolute top-0 right-0 w-1/3 h-full bg-white shadow-lg p-4 overflow-y-auto"
-          style={{ borderLeft: "1px solid #ddd" }}
-        >
-          <h2>{selectedProject.title}</h2>
-          <p>{selectedProject.description}</p>
-          <img
-            src={selectedProject.heroImage}
-            alt={selectedProject.title}
-            style={{ width: "50%", borderRadius: "8px" }}
-          />
-          <button
-            style={{
-              marginTop: "2rem",
-              background: "#8f5e5eff",
-              color: "white",
-              padding: "0.5rem 1rem",
-              borderRadius: "8px",
-            }}
-            onClick={() => setSelectedProject(null)}
+      {/* Section 2 — Map (lazy mounts when scrolled into view) */}
+      <section id="map" ref={mapRef} className="vh">
+        <MapLazy nodeMapProps={nodeMapProps} />
+
+        {selectedProject && (
+          <div
+            className="absolute top-0 right-0 w-1/3 h-full bg-white shadow-lg p-4 overflow-y-auto"
+            style={{ borderLeft: "1px solid #ddd" }}
           >
-            Close
-          </button>
-        </div>
-      )}
+            <h2>{selectedProject.title}</h2>
+            <p>{selectedProject.description}</p>
+            <img
+              src={selectedProject.heroImage}
+              alt={selectedProject.title}
+              style={{ width: "50%", borderRadius: "8px" }}
+            />
+            <button
+              style={{
+                marginTop: "2rem",
+                background: "#8f5e5eff",
+                color: "white",
+                padding: "0.5rem 1rem",
+                borderRadius: "8px",
+              }}
+              onClick={() => setSelectedProject(null)}
+            >
+              Close
+            </button>
+          </div>
+        )}
+      </section>
     </main>
   );
 }
