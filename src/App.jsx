@@ -1,54 +1,137 @@
 // top-level React component—the first UI your app renders.
 
-import React, { useRef, useState, useLayoutEffect } from "react"; //currently unused
+import React, { useState, useCallback, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Projects from "./pages/Projects";
-import Toolbar from "./components/Toolbar";
+import SectionPage from "./pages/SectionPage.jsx";
+import ClickSpark from "./components/Ribbons.jsx";
 import "./App.css";
 import logo from "./assets/logo.png";
+import QuoteBox from "./components/QuoteBox";
 
+function IntroAnimation({ onComplete }) {
+  return (
+    <motion.div
+      className="intro-overlay"
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.6, ease: "easeInOut" } }}
+    >
+      <motion.svg
+        viewBox="0 0 100 100"
+        className="intro-mark"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      >
+        <motion.rect
+          x="10"
+          y="10"
+          width="80"
+          height="80"
+          rx="6"
+          stroke="#49b2f2"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{
+            pathLength: 1,
+            opacity: 1,
+            transition: {
+              duration: 1.2,
+              ease: "easeInOut",
+            },
+          }}
+        />
+
+        <motion.path
+          d="M36 30 V70 H66"
+          stroke="#0f172a"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{
+            pathLength: 1,
+            opacity: 1,
+            transition: {
+              duration: 0.9,
+              ease: "easeInOut",
+              delay: 0.9,
+            },
+          }}
+          onAnimationComplete={() => setTimeout(onComplete, 450)}
+        />
+      </motion.svg>
+    </motion.div>
+  );
+}
 
 export default function App() {
   const [selectedTags, setSelectedTags] = useState([]);
-  const toolbarRef=useRef(null);
-  const [toolbarHeight, setToolbarHeight] = useState(0);
+  const [hasShownNav, setHasShownNav] = useState(false); // reveal nav once map is reached
+  const [showIntro, setShowIntro] = useState(true);
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === "undefined") return "light";
+    const stored = window.localStorage.getItem("theme");
+    if (stored === "light" || stored === "dark") return stored;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  });
+  useEffect(() => {
+    const body = document.body;
+    body.classList.toggle("theme-dark", theme === "dark");
+    body.classList.toggle("theme-light", theme === "light");
+    window.localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = useCallback(
+    () => setTheme((prev) => (prev === "dark" ? "light" : "dark")),
+    []
+  );
   const onToggleTag = (tag) => {
     setSelectedTags((prev) => {
       if (prev.includes(tag)) return prev.filter((t) => t !== tag);
       return [...prev, tag];
     });
   };
-  useLayoutEffect(() => {
-    const toolbarEl=toolbarRef.current;
-    if(!toolbarEl) return;
 
-    const updateHeight=()=> {
-      const rect=toolbarEl.getBoundingClientRect();
-      setToolbarHeight(rect.height);
-    }
-    updateHeight();
-
-    const observer=new ResizeObserver(updateHeight);
-    observer.observe(toolbarEl);
-    return () => observer.disconnect();
-  },[]);
+  const handleNavToggle = useCallback((visible) => {
+    // follow the current section visibility (hero hides, map shows)
+    setHasShownNav(visible);
+  }, []);
 
   return (
-    <BrowserRouter basename="/irene_portfolio">
-      <AppContent />
-    </BrowserRouter>
+    <AnimatePresence mode="wait">
+      {showIntro ? (
+        <IntroAnimation key="intro" onComplete={() => setShowIntro(false)} />
+      ) : (
+        <ClickSpark className="spark-root" sparkColor="#000" key="app">
+          <BrowserRouter basename="/irene_portfolio">
+            <AppContent theme={theme} onToggleTheme={toggleTheme} />
+          </BrowserRouter>
+        </ClickSpark>
+      )}
+    </AnimatePresence>
   );
 
-  function AppContent() {
+  function AppContent({ theme, onToggleTheme }) {
     // location is available because this component is rendered inside BrowserRouter
     const location = useLocation();
     const isHome = location.pathname === "/";
+    const showNavChrome = isHome ? hasShownNav : true;
+    const isDark = theme === "dark";
 
     return (
       <>
+        <button
+          type="button"
+          className="theme-toggle"
+          onClick={onToggleTheme}
+          aria-pressed={isDark}
+          title="Toggle dark mode"
+        >
+          {isDark ? "☀️ Light" : "🌙 Dark"}
+        </button>
+
         {/* show these only on the home route */}
-        {isHome && (
+        {showNavChrome && (
           <>
             <div className="card">
               <Link to="/">
@@ -64,20 +147,6 @@ export default function App() {
                 <span>contact</span>
               </Link>
             </div>
-
-            <div ref={toolbarRef} className="toolbarOverlay">
-              <Toolbar
-                selectedTags={selectedTags}
-                onToggleTag={onToggleTag}
-                onAddProject={() => alert("Add project clicked!")}
-              />
-            </div>
-
-            <div
-              className="toolbar-spacer"
-              aria-hidden="true"
-              style={{ height: toolbarHeight }}
-            />
 
             {/* logo and nav */}
             <header className="app-header">
@@ -95,12 +164,24 @@ export default function App() {
         <Routes>
           <Route
             path="/"
-            element={<Home selectedTags={selectedTags} onToggleTag={onToggleTag} />}
+            element={
+              <>
+              <Home
+                selectedTags={selectedTags}
+                onToggleTag={onToggleTag}
+                onNavToggle={handleNavToggle}
+              />
+              <section className="quote-section">
+          <QuoteBox />
+        </section>
+        </>
+            }
           />
           <Route
             path="/projects"
             element={<Projects selectedTags={selectedTags} onToggleTag={onToggleTag} />}
           />
+          <Route path="/section/:slug" element={<SectionPage />} />
         </Routes>
       </>
     );

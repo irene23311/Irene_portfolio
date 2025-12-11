@@ -1,6 +1,8 @@
 /* src/styles/Projects.css */
 .Projects-page {
-  color: #eaeaea;        /* default text color on dark bg */
+  min-height: 100vh;
+  color: var(--ink);
+  background: var(--bg);
   padding-top: 96px;     /* push content below fixed nav */
   
 }

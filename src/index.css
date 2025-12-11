@@ -1,12 +1,26 @@
 /* ---- Trickle-like design tokens ---- */
 :root{
-  --bg: #ffffff; 
-    --panel: #e7f5de;
-    --border: #ba24d1;
-    --text: #ffffff;
-  --muted: #6b7280;
+  --bg: #f9f9f7;
+  --surface: #ffffff;
+  --panel: #a8bdde;
+  --border: #d9e0ea;
+  --text: #0f172a;
+  --muted: #475569;
   --chip-bg: #eef7ff;
   --chip-text: #334155;
+  --brand: #49b2f2;
+}
+
+body.theme-dark{
+  --bg: #0b1324;
+  --surface: #0f172a;
+  --panel: #111c2e;
+  --border: #1f2e47;
+  --text: #e5ecff;
+  --muted: #c7d4f7;
+  --chip-bg: #1b2740;
+  --chip-text: #e5ecff;
+  --brand: #7cc7ff;
 }
 
 /* ---- Global resets ---- */
@@ -21,55 +35,12 @@ body{
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ---- Toolbar (chips + search) ---- */
-.toolbar{
-  position:fixed;
-  top: 16px;
-  left:100px;
-  right:310px;
-  z-index:1000;
-  margin:0;
-  width:auto;
-
-  display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 8px 10px;
-  box-shadow: 0 1px 0 rgba(86, 116, 186, 0.03);
-}
-
-/* spacer to preserve layout when toolbar is fixed */
-.toolbar-spacer {
-  height: 52px; /* adjust if your toolbar has different height */
-  background: gray;
-}
-.chip{
-  display: inline-flex; align-items:center; gap:6px;
-  font-size: 14px; line-height: 1;
-  padding: 8px 10px; border-radius: 999px;
-  background: var(--chip-bg); color: var(--chip-text);
-  border: 1px solid var(--border);
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-.chip:hover{
-  background: #e2e8f0;
-  border-color: #94a3b8;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-.chip.is-active{ background: #e8eefc; border-color:#c7d2fe; color:#1e40af; }
-.chip.is-active:hover{
-  background: #dbeafe;
-  border-color: #93c5fd;
-}
 
 .search{
   height: 32px; min-width: 180px;
   padding: 0 10px; border-radius: 8px;
   border: 1px solid var(--border); outline: none;
-  background: #ffffff; color: var(--text);
+  background: var(--surface); color: var(--text);
 }
 
 /* ---- Right panel ---- */
@@ -93,6 +64,47 @@ body{
 .btn.primary{ 
   background: var(--brand); 
   border-color: var(--brand); 
-  color: #fff; }
+  color: #0f172a; }
 .btn:hover{ filter: brightness(0.97); }
 
+
+
+
+
+.quote-box {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+  text-align: center;
+  color: var(--text);
+}
+
+.quote-text {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  color: var(--text);
+}
+
+.quote-author {
+  font-size: 0.95rem;
+  opacity: 0.7;
+  margin-bottom: 1rem;
+  color: var(--muted);
+}
+
+.quote-error {
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+
+.quote-button {
+  padding: 0.4rem 1.1rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
